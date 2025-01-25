@@ -1,24 +1,24 @@
 const con = require("../config/db");
 
-class Users {
-    // get all users
-    static userAll = (req, res) => {
+class Categorys {
+    // get all categorys
+    static categoryAll = (req, res) => {
         try {
-            con.query("SELECT * FROM users", (err, result, fields) => {
+            con.query("SELECT * FROM categorys", (err, result, fields) => {
                 if (err) throw err;
                 console.log(result);
                 res.status(200).json(result);
             });
         } catch (error) {
-            return res.status(500).json({ error: 'Failed to retrieve users.' });
+            return res.status(500).json({ error: 'Failed to retrieve categorys.' });
         }
     }
 
-    // get single user
-    static userId = (req, res) => {
+    // get single category
+    static categoryId = (req, res) => {
         const id = req.params.id;
         try {
-            con.query("SELECT * FROM users where id = ?", [id], (err, result, fields) => {
+            con.query("SELECT * FROM categorys where id = ?", [id], (err, result, fields) => {
                 if (err) throw err;
                 console.log(result);
                 if (result.length == 0) {
@@ -27,34 +27,30 @@ class Users {
                 res.status(200).json(result);
             });
         } catch (error) {
-            return res.status(500).json({ error: 'Failed to retrieve users.' });
+            return res.status(500).json({ error: 'Failed to retrieve categorys.' });
         }
     }
 
     // insert
-    static userInsert = (req, res) => {
+    static categoryInsert = (req, res) => {
         const data = req.body;
-        const userData = {
-            "name": "Name",
-            "email": "name.email@gmail.com",
-            "password": "pass",
-            "phone": 999999999,
-            "address": "address",
-            "image": "",
-        };
+        // const categoryData = {
+        //     "name": "Name",
+        //     "email": "name.email@gmail.com",
+        //     "password": "pass",
+        //     "phone": 999999999,
+        //     "address": "address",
+        //     "image": "",
+        // };
 
         const values = [
-            data.name || userData.name,
-            data.email || userData.email,
-            data.password || userData.password,
-            data.phone || userData.phone,
-            data.address || userData.address,
-            data.image || userData.image
+            data.category,
+            data.description,
         ];
 
         try {
             con.query(
-                "INSERT INTO users (name, email, password, phone, address, image) VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT INTO categorys (category, description) VALUES (?, ?)",
                 values,
                 (err, result, fields) => {
                     if (err) {
@@ -64,68 +60,68 @@ class Users {
                     console.log("Insert result:", result);
                     res.status(200).json({
                         error: "Data insert successfully.",
-                        user: data || userData
+                        category: data || values
                     });
                 }
             );
         } catch (error) {
             console.error("Catch Block Error:", error);
-            return res.status(500).json({ error: 'Failed to insert user.' });
+            return res.status(500).json({ error: 'Failed to insert category.' });
         }
     };
 
     // edit
-    static userEdit = (req, res) => {
+    static categoryEdit = (req, res) => {
         const id = req.params.id;
         const data = req.body;
 
         try {
-            con.query("select * from users where id = ?",
+            con.query("select * from categorys where id = ?",
                 [id], (err, result, fields) => {
                     // console.log(result);
                     if (err) throw err;
                     if (result.length == 0) {
-                        res.status(404).json({ message: 'User not found.', id: id });
+                        res.status(404).json({ message: 'category not found.', id: id });
                     }
 
-                    con.query("update users set ? where id = ?",
+                    con.query("update categorys set ? where id = ?",
                         [data, id],
                         (errUpdate, resultUpdate) => {
                             if (errUpdate) throw errUpdate;
                             res.status(200).json({
                                 error: "Data Update successfully.",
-                                user: data,
+                                category: data,
                             });
                         });
                 });
 
         } catch (error) {
-            return res.status(500).json({ message: 'Failed to Update users.', error: error });
+            return res.status(500).json({ message: 'Failed to Update categorys.', error: error });
         }
     }
 
     // delete
-    static userDelete = (req, res) => {
+    static categoryDelete = (req, res) => {
         const id = req.params.id;
         try {
-            const user = con.query("SELECT * FROM users where id = ?", [id], (err, result, fields) => {
+            const category = con.query("SELECT * FROM categorys where id = ?", [id], (err, result, fields) => {
                 if (err) throw err;
                 if (result.length == 0) {
-                    return res.status(404).json({ error: 'User not found.' });
+                    return res.status(404).json({ error: 'category not found.' });
                 }
 
-                con.query("delete from users where id = ?", [id], (deleteErr, deleteResult) => {
+                con.query("delete from categorys where id = ?", [id], (deleteErr, deleteResult) => {
                     if (deleteErr) throw deleteErr;
                     res.status(200).json({
-                        message: 'User Deleted Succesfully.',
-                        user: result
+                        message: 'category Deleted Succesfully.',
+                        category: result
                     });
                 });
             });
         } catch (error) {
-            return res.status(500).json({ error: 'Failed to retrieve users.' });
+            return res.status(500).json({ error: 'Failed to retrieve categorys.' });
         }
     }
 }
 
-module.exports = Users;
+module.exports = Categorys;
