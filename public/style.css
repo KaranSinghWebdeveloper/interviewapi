@@ -13891,4 +13891,29 @@ fieldset:disabled .btn {
     }
 }
 
+
+.url_li {
+    font-size: 20px;
+}
+
+.GET {
+    background: #19875f73 !important;
+}
+
+.PUT {
+    background: #0043ff91 !important;
+}
+
+.POST {
+    background: #c3b73173 !important;
+}
+
+.DELETE {
+    background: #ff38388a !important;
+}
+
+.GET_id {
+    background: #8384ff73 !important;
+}
+
 /*# sourceMappingURL=bootstrap.min.css.map */

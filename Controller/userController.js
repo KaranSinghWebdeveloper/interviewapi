@@ -6,7 +6,7 @@ class Users {
         try {
             con.query("SELECT * FROM users", (err, result, fields) => {
                 if (err) throw err;
-                console.log(result);
+                // console.log(result);
                 res.status(200).json(result);
             });
         } catch (error) {
@@ -20,7 +20,7 @@ class Users {
         try {
             con.query("SELECT * FROM users where id = ?", [id], (err, result, fields) => {
                 if (err) throw err;
-                console.log(result);
+                // console.log(result);
                 if (result.length == 0) {
                     return res.status(404).json({ message: 'User not found.' });
                 }
@@ -61,7 +61,7 @@ class Users {
                         console.error("SQL Error:", err);
                         return res.status(500).json({ error: "Database query failed." });
                     }
-                    console.log("Insert result:", result);
+                    // console.log("Insert result:", result);
                     res.status(200).json({
                         error: "Data insert successfully.",
                         user: data || userData
