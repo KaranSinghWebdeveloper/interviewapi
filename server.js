@@ -1,15 +1,15 @@
 const express = require('express');
-const useRouters = require('../Routes/userRoute');
+const useRouters = require('./Routes/userRoute');
 const app = express();
 const dotenv = require('dotenv').config();
 const path = require('path');
-const categoryRouters = require('../Routes/categoryRoute');
-const interviewRouters = require('../Routes/interviewRoute');
+const categoryRouters = require('./Routes/categoryRoute');
+const interviewRouters = require('./Routes/interviewRoute');
 app.use(express.json());
 
 app.use(express.static('public'))
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // user crud
